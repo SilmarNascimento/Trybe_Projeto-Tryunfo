@@ -19,7 +19,22 @@ class Form extends Component {
       onInputChange,
       onSaveButtonClick,
     } = this.props;
-    console.log(hasTrunfo);
+    const trunfoOption = (
+      <label htmlFor="cardTrunfo">
+        Super Trybe Trunfo
+        <input
+          type="checkbox"
+          name="cardTrunfo"
+          id="cardTrunfo"
+          checked={ cardTrunfo }
+          onChange={ onInputChange }
+          data-testid="trunfo-input"
+        />
+      </label>
+    );
+    const replaceTrunfoOption = (
+      <p>Você já tem um Super Trunfo em seu baralho</p>
+    );
     return (
       <fieldset>
         <legend>Formulário Super Tryunfo</legend>
@@ -104,17 +119,7 @@ class Form extends Component {
             <option value="muito raro">muito raro</option>
           </select>
         </label>
-        <label htmlFor="cardTrunfo">
-          Super Trybe Trunfo
-          <input
-            type="checkbox"
-            name="cardTrunfo"
-            id="cardTrunfo"
-            checked={ cardTrunfo }
-            onChange={ onInputChange }
-            data-testid="trunfo-input"
-          />
-        </label>
+        { hasTrunfo ? replaceTrunfoOption : trunfoOption }
         <button
           disabled={ isSaveButtonDisabled }
           onClick={ onSaveButtonClick }

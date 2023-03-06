@@ -15,8 +15,45 @@ class App extends React.Component {
       cardRare: '',
       cardTrunfo: false,
       hasTrunfo: 'placeholder',
+      deck: [],
     };
   }
+
+  creatDeckObj = () => {
+    const {
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
+    } = this.state;
+    const obj = {
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
+    };
+    this.setState((prev) => ({
+      deck: prev.deck.push(obj), // JSON.stringify(obj)),
+    }));
+    this.setState({
+      cardName: '',
+      cardDescription: '',
+      cardAttr1: 0,
+      cardAttr2: 0,
+      cardAttr3: 0,
+      cardImage: '',
+      cardRare: 'normal',
+      cardTrunfo: false,
+    });
+  };
 
   onInputChange = ({ target }) => {
     const { name, type } = target;
@@ -27,10 +64,11 @@ class App extends React.Component {
   };
 
   onSaveButtonClick = () => {
+    this.creatDeckObj();
     console.log('placeholder');
   };
 
-  saveValidation = () => {
+  saveBtnValidation = () => {
     const {
       cardName,
       cardDescription,
@@ -68,7 +106,7 @@ class App extends React.Component {
       cardTrunfo,
       hasTrunfo,
     } = this.state;
-    const isSaveButtonDisabled = this.saveValidation();
+    const isSaveButtonDisabled = this.saveBtnValidation();
     console.log(hasTrunfo);
 
     return (

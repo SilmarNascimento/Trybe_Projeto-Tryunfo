@@ -19,7 +19,7 @@ class Card extends Component {
           { cardName}
         </h1>
         <img src={ cardImage } alt={ cardName } data-testid="image-card" />
-        <p>
+        <p data-testid="description-card">
           { cardDescription }
         </p>
         <div>
@@ -30,9 +30,7 @@ class Card extends Component {
         <h2 data-testid="rare-card">
           { cardRare }
         </h2>
-        <div aria-disabled={ cardTrunfo }>
-          Super Trunfo
-        </div>
+        { cardTrunfo === true ? <p data-testid="trunfo-card">Super Trunfo</p> : <p /> }
 
       </section>
     );

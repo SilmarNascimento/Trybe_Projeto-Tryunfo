@@ -19,6 +19,7 @@ class Form extends Component {
       onInputChange,
       onSaveButtonClick,
     } = this.props;
+    console.log(hasTrunfo);
     return (
       <fieldset>
         <legend>Formulário Super Tryunfo</legend>

@@ -14,7 +14,7 @@ class App extends React.Component {
       cardImage: '',
       cardRare: '',
       cardTrunfo: false,
-      hasTrunfo: '',
+      hasTrunfo: 'placeholder',
     };
   }
 
@@ -30,6 +30,32 @@ class App extends React.Component {
     console.log('placeholder');
   };
 
+  saveValidation = () => {
+    const {
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+    } = this.state;
+    const sumLimit = 210;
+    const unitLimit = 90;
+    const parsed1 = parseInt((cardAttr1), 10);
+    const parsed2 = parseInt((cardAttr2), 10);
+    const parsed3 = parseInt((cardAttr3), 10);
+
+    const validTextInput = cardName && cardDescription && cardImage && cardRare;
+    const validAttribute = parsed1 + parsed2 + parsed3 <= sumLimit;
+    const validAttr1 = parsed1 >= 0 && parsed1 <= unitLimit;
+    const validAttr2 = parsed2 >= 0 && parsed2 <= unitLimit;
+    const validAttr3 = parsed3 >= 0 && parsed3 <= unitLimit;
+    const validation1 = validTextInput && validAttribute;
+    const validation2 = validAttr1 && validAttr2 && validAttr3;
+    return !(validation1 && validation2);
+  };
+
   render() {
     const {
       cardName,
@@ -42,7 +68,7 @@ class App extends React.Component {
       cardTrunfo,
       hasTrunfo,
     } = this.state;
-    const isSaveButtonDisabled = undefined;
+    const isSaveButtonDisabled = this.saveValidation();
     console.log(hasTrunfo);
 
     return (

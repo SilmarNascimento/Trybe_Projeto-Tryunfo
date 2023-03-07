@@ -40,9 +40,8 @@ class App extends React.Component {
       cardRare,
       cardTrunfo,
     };
-    console.log(obj);
     this.setState((prev) => ({
-      deck: [obj, ...prev.deck],
+      deck: [...prev.deck, obj],
     }));
     if (cardTrunfo) this.setState({ hasTrunfo: true });
     this.setState({
@@ -91,6 +90,23 @@ class App extends React.Component {
     return !(validation1 && validation2);
   };
 
+  deleteCard = ({ target }) => {
+    const { id } = target;
+    const { deck } = this.state;
+    const removedCard = deck.splice(id, 1);
+    console.log(removedCard);
+    if (removedCard[0].cardTrunfo) {
+      this.setState({
+        deck,
+        hasTrunfo: false,
+      });
+    } else {
+      this.setState({
+        deck,
+      });
+    }
+  };
+
   cardList = (deck) => {
     const output = deck.map((card, index) => {
       const {
@@ -104,17 +120,25 @@ class App extends React.Component {
         cardTrunfo,
       } = card;
       return (
-        <Card
-          key={ index }
-          cardName={ cardName }
-          cardDescription={ cardDescription }
-          cardAttr1={ cardAttr1 }
-          cardAttr2={ cardAttr2 }
-          cardAttr3={ cardAttr3 }
-          cardImage={ cardImage }
-          cardRare={ cardRare }
-          cardTrunfo={ cardTrunfo }
-        />
+        <div key={ index }>
+          <Card
+            cardName={ cardName }
+            cardDescription={ cardDescription }
+            cardAttr1={ cardAttr1 }
+            cardAttr2={ cardAttr2 }
+            cardAttr3={ cardAttr3 }
+            cardImage={ cardImage }
+            cardRare={ cardRare }
+            cardTrunfo={ cardTrunfo }
+          />
+          <button
+            id={ index }
+            data-testid="delete-button"
+            onClick={ this.deleteCard }
+          >
+            Excluir
+          </button>
+        </div>
       );
     });
     return output;
@@ -165,7 +189,7 @@ class App extends React.Component {
           />
         </div>
         <div>
-          { deck.length > 0 ? this.cardList(deck) : <p /> }
+          { deck ? this.cardList(deck) : <p /> }
         </div>
       </div>
     );

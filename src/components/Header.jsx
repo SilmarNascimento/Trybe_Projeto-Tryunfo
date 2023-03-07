@@ -14,10 +14,23 @@ class Header extends Component {
     cardList(deck);
   };
 
+  setTrunfo = (event) => {
+    const {
+      deck,
+    } = this.props;
+    const {
+      cardList,
+      onInputChange,
+    } = this.props;
+    onInputChange(event);
+    cardList(deck);
+  };
+
   render() {
     const {
       nameFilter,
       rareFilter,
+      trunfoFilter,
     } = this.props;
     return (
       <section>
@@ -27,6 +40,7 @@ class Header extends Component {
             type="text"
             name="nameFilter"
             id="nameFilter"
+            disabled={ trunfoFilter }
             value={ nameFilter }
             onChange={ this.setFilter }
             data-testid="name-filter"
@@ -37,6 +51,7 @@ class Header extends Component {
           <select
             name="rareFilter"
             id="rareFilter"
+            disabled={ trunfoFilter }
             value={ rareFilter }
             onChange={ this.setFilter }
             data-testid="rare-filter"
@@ -46,6 +61,17 @@ class Header extends Component {
             <option value="raro">Raro</option>
             <option value="muito raro">Muito Raro</option>
           </select>
+        </label>
+        <label htmlFor="trunfoFilter">
+          Super Trunfo
+          <input
+            type="checkbox"
+            name="trunfoFilter"
+            id="trunfoFilter"
+            checked={ trunfoFilter }
+            onChange={ this.setTrunfo }
+            data-testid="trunfo-filter"
+          />
         </label>
       </section>
     );
@@ -57,6 +83,7 @@ export default Header;
 Header.propTypes = {
   nameFilter: PropTypes.string.isRequired,
   rareFilter: PropTypes.string.isRequired,
+  trunfoFilter: PropTypes.bool.isRequired,
   deck: PropTypes.arrayOf(
     PropTypes.shape({
       cardName: PropTypes.string.isRequired,

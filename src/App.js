@@ -19,6 +19,7 @@ class App extends React.Component {
       deck: [],
       nameFilter: '',
       rareFilter: 'todas',
+      trunfoFilter: false,
     };
   }
 
@@ -82,7 +83,6 @@ class App extends React.Component {
     const parsed1 = parseInt((cardAttr1), 10);
     const parsed2 = parseInt((cardAttr2), 10);
     const parsed3 = parseInt((cardAttr3), 10);
-
     const validTextInput = cardName && cardDescription && cardImage && cardRare;
     const validAttribute = parsed1 + parsed2 + parsed3 <= sumLimit;
     const validAttr1 = parsed1 >= 0 && parsed1 <= unitLimit;
@@ -98,22 +98,39 @@ class App extends React.Component {
     const { deck } = this.state;
     const removedCard = deck.splice(id, 1);
     if (removedCard[0].cardTrunfo) {
-      this.setState({
-        deck,
-        hasTrunfo: false,
-      });
+      this.setState({ deck, hasTrunfo: false });
     } else {
-      this.setState({
-        deck,
-      });
+      this.setState({ deck });
     }
   };
 
   cardList = (deck) => {
-    const {
-      nameFilter,
-      rareFilter,
-    } = this.state;
+    const { nameFilter, rareFilter, trunfoFilter } = this.state;
+    if (trunfoFilter) {
+      const trunfoCard = deck.find((card) => card.cardTrunfo === true);
+      const {
+        cardName,
+        cardDescription,
+        cardAttr1,
+        cardAttr2,
+        cardAttr3,
+        cardImage,
+        cardRare,
+        cardTrunfo,
+      } = trunfoCard;
+      return (
+        <Card
+          cardName={ cardName }
+          cardDescription={ cardDescription }
+          cardAttr1={ cardAttr1 }
+          cardAttr2={ cardAttr2 }
+          cardAttr3={ cardAttr3 }
+          cardImage={ cardImage }
+          cardRare={ cardRare }
+          cardTrunfo={ cardTrunfo }
+        />
+      );
+    }
     const output = deck.map((card, index) => {
       const {
         cardName,
@@ -126,8 +143,6 @@ class App extends React.Component {
         cardTrunfo,
       } = card;
       const hasName = cardName.includes(nameFilter);
-      console.log(hasName);
-      console.log(cardRare);
       let hasRarity = false;
       switch (rareFilter) {
       case 'todas':
@@ -145,7 +160,6 @@ class App extends React.Component {
       default:
         break;
       }
-      console.log(hasRarity);
       if (!hasName || !hasRarity) {
         return;
       }
@@ -161,11 +175,7 @@ class App extends React.Component {
             cardRare={ cardRare }
             cardTrunfo={ cardTrunfo }
           />
-          <button
-            id={ index }
-            data-testid="delete-button"
-            onClick={ this.deleteCard }
-          >
+          <button id={ index } data-testid="delete-button" onClick={ this.deleteCard }>
             Excluir
           </button>
         </div>
@@ -188,6 +198,7 @@ class App extends React.Component {
       deck,
       nameFilter,
       rareFilter,
+      trunfoFilter,
     } = this.state;
     const isSaveButtonDisabled = this.saveBtnValidation();
 
@@ -199,6 +210,7 @@ class App extends React.Component {
             deck={ deck }
             nameFilter={ nameFilter }
             rareFilter={ rareFilter }
+            trunfoFilter={ trunfoFilter }
             onInputChange={ this.onInputChange }
             cardList={ this.cardList }
           />

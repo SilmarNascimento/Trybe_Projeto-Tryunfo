@@ -1,6 +1,7 @@
 import React from 'react';
 import Card from './components/Card';
 import Form from './components/Form';
+import Header from './components/Header';
 
 class App extends React.Component {
   constructor() {
@@ -12,10 +13,12 @@ class App extends React.Component {
       cardAttr2: '',
       cardAttr3: '',
       cardImage: '',
-      cardRare: '',
+      cardRare: 'normal',
       cardTrunfo: false,
       hasTrunfo: false,
       deck: [],
+      nameFilter: '',
+      rareFilter: '',
     };
   }
 
@@ -94,7 +97,6 @@ class App extends React.Component {
     const { id } = target;
     const { deck } = this.state;
     const removedCard = deck.splice(id, 1);
-    console.log(removedCard);
     if (removedCard[0].cardTrunfo) {
       this.setState({
         deck,
@@ -108,6 +110,10 @@ class App extends React.Component {
   };
 
   cardList = (deck) => {
+    const {
+      nameFilter,
+      rareFilter,
+    } = this.state;
     const output = deck.map((card, index) => {
       const {
         cardName,
@@ -119,6 +125,16 @@ class App extends React.Component {
         cardRare,
         cardTrunfo,
       } = card;
+      const hasName = cardName.includes(nameFilter);
+      console.log(hasName);
+      console.log(cardRare);
+      const hasRarity = (
+        cardRare !== 'muito raro' ? cardRare.includes(rareFilter) : rareFilter.includes(cardRare)
+      );
+      console.log(hasRarity);
+      if (!hasName || !hasRarity) {
+        return;
+      }
       return (
         <div key={ index }>
           <Card
@@ -156,6 +172,8 @@ class App extends React.Component {
       cardTrunfo,
       hasTrunfo,
       deck,
+      nameFilter,
+      rareFilter,
     } = this.state;
     const isSaveButtonDisabled = this.saveBtnValidation();
 
@@ -163,6 +181,13 @@ class App extends React.Component {
       <div>
         <h1>Tryunfo</h1>
         <div>
+          <Header
+            deck={ deck }
+            nameFilter={ nameFilter }
+            rareFilter={ rareFilter }
+            onInputChange={ this.onInputChange }
+            cardList={ this.cardList }
+          />
           <Form
             cardName={ cardName }
             cardDescription={ cardDescription }

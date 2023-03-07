@@ -114,9 +114,9 @@ class Form extends Component {
             onChange={ onInputChange }
             data-testid="rare-input"
           >
-            <option value="normal">normal</option>
-            <option value="raro">raro</option>
-            <option value="muito raro">muito raro</option>
+            <option value="normal">Normal</option>
+            <option value="raro">Raro</option>
+            <option value="muito raro">Muito Raro</option>
           </select>
         </label>
         { hasTrunfo ? replaceTrunfoOption : trunfoOption }

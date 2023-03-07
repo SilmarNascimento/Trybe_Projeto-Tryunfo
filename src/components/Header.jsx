@@ -41,7 +41,7 @@ class Header extends Component {
             onChange={ this.setFilter }
             data-testid="rare-filter"
           >
-            <option value="">Todas</option>
+            <option value="todas">Todas</option>
             <option value="normal">Normal</option>
             <option value="raro">Raro</option>
             <option value="muito raro">Muito Raro</option>

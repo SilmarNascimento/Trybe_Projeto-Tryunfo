@@ -18,7 +18,7 @@ class App extends React.Component {
       hasTrunfo: false,
       deck: [],
       nameFilter: '',
-      rareFilter: '',
+      rareFilter: 'todas',
     };
   }
 
@@ -128,9 +128,23 @@ class App extends React.Component {
       const hasName = cardName.includes(nameFilter);
       console.log(hasName);
       console.log(cardRare);
-      const hasRarity = (
-        cardRare !== 'muito raro' ? cardRare.includes(rareFilter) : rareFilter.includes(cardRare)
-      );
+      let hasRarity = false;
+      switch (rareFilter) {
+      case 'todas':
+        hasRarity = true;
+        break;
+      case 'normal':
+        hasRarity = cardRare.includes(rareFilter);
+        break;
+      case 'raro':
+        hasRarity = rareFilter.includes(cardRare);
+        break;
+      case 'muito raro':
+        hasRarity = cardRare.includes(rareFilter);
+        break;
+      default:
+        break;
+      }
       console.log(hasRarity);
       if (!hasName || !hasRarity) {
         return;
